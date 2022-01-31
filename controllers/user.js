@@ -24,6 +24,7 @@ exports.register = function(req, res) {
     });
   };
 
+
   exports.login = function(req, res) {
     User.findOne({
       email: req.body.email
@@ -37,9 +38,11 @@ exports.register = function(req, res) {
   };
 
 exports.loginRequired = function(req, res, next) {
+    //if user is authorized can do the request
   if (req.user) {
     next();
   } else {
+    //if user is not Unauthorized show an error 
 
     return res.status(401).json({ message: 'Unauthorized user!!' });
   }
@@ -47,7 +50,7 @@ exports.loginRequired = function(req, res, next) {
 
 exports.users = function(req, res, next) {
   if (req.user) {
-  
+    //get all users
     User.find({}).then(function (users) {
         return res.json({ users: users });
     });
